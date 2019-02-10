@@ -1,5 +1,5 @@
 import express from 'express'
-import redis from 'redis'
+import redis from 'async-redis'
 
 require('dotenv').config()
 
@@ -14,10 +14,31 @@ redisClient.on('error', err => {
 })
 
 const app = express()
+app.use(express.json())
 // Express app
-app.all('/spotify/data/:key', (req, res) => {
-  res.send('Success! 🎉\n')
+app.all('/spotify/data/:key', async (req, res) => {
+  try {
+    const key = req.params.key
+    const value = req.query.value
+      ? `${req.query.value}`
+      : (Object.keys(req.body).length !== 0 && JSON.stringify(req.body)) || null
+    const args = [
+      Boolean(value) ? 'hset' : 'hget',
+      'spotify',
+      key,
+      value
+    ].filter(arg => Boolean(arg))
+    const reply = await callStorage(...args)
+    res.send({ [key]: reply })
+  } catch (err) {
+    console.error(`\n🚨 There was an error at /api/spotify/data: ${err} 🚨\n`)
+    res.send({ error: err })
+  }
 })
+
+const callStorage = (method, ...args) => redisClient[method](...args)
+
+app.get('/spotify/callback')
 
 module.exports = {
   path: '/api/',
