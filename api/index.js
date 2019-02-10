@@ -1,5 +1,6 @@
 import express from 'express'
 import redis from 'async-redis'
+import axios from 'axios'
 
 require('dotenv').config()
 
@@ -37,8 +38,6 @@ app.all('/spotify/data/:key', async (req, res) => {
 })
 
 const callStorage = (method, ...args) => redisClient[method](...args)
-
-app.get('/spotify/callback')
 
 module.exports = {
   path: '/api/',
