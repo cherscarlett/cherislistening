@@ -49,6 +49,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    watch: ['api'],
     /*
     ** You can extend webpack config here
     */
