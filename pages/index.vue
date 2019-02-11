@@ -1,24 +1,12 @@
 <template>
   <section class="container">
     <div>
-      <logo />
-      <h1 class="title">
-        cherislistening
-      </h1>
-      <h2 class="subtitle">
-        A Spotify Now Playing App
-      </h2>
+      <logo/>
+      <h1 class="title">cherislistening</h1>
+      <h2 class="subtitle">A Spotify Now Playing App</h2>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
+        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
+        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
       </div>
     </div>
   </section>
@@ -30,6 +18,14 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  mounted() {
+    const spotifyWindow = window.open(
+      'https://accounts.spotify.com/authorize?client_id=ed1727153f264e7abcc1e06c28927290&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=http://localhost:3000/api/spotify/callback',
+      'name',
+      'height=750,width=350'
+    )
+    if (window.focus) spotifyWindow.focus()
   }
 }
 </script>
