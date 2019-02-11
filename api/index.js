@@ -17,20 +17,12 @@ redisClient.on('error', err => {
 const app = express()
 app.use(express.json())
 // Express app
-app.all('/spotify/data/:key', async (req, res) => {
+app.get('/spotify/data/:key', async (req, res) => {
   try {
     const { key } = req.params
-    const { expires } = req.query
-    const value = req.query.value
-      ? `${req.query.value}`
-      : (Object.keys(req.body).length !== 0 && JSON.stringify(req.body)) || null
-    const args = [
-      Boolean(value) ? 'set' : 'get',
-      key,
-      value,
-      Boolean(expires) ? 'EX' : null,
-      expires
-    ].filter(arg => Boolean(arg))
+    if (key === ('refresh_token' || 'access_token'))
+      throw Error('Cannot get protected stores.')
+    const args = storageArgs(key)
     const reply = await callStorage(...args)
     res.send({ [key]: reply })
   } catch (err) {
@@ -38,6 +30,19 @@ app.all('/spotify/data/:key', async (req, res) => {
     res.send(err)
   }
 })
+
+function storageArgs(key, ...{ expires, ...props }) {
+  const value = Boolean(props.body)
+    ? JSON.stringify(props.body)
+    : props.value || null
+  return [
+    Boolean(value) ? 'set' : 'get',
+    key,
+    value,
+    Boolean(expires) ? 'EX' : null,
+    expires
+  ].filter(arg => Boolean(arg))
+}
 
 const callStorage = (method, ...args) => redisClient[method](...args)
 
@@ -53,8 +58,14 @@ app.get('/spotify/callback', async (req, res) => {
     const { id } = userData.data
     if (id !== process.env.SPOTIFY_USER_ID)
       throw Error("You aren't the droid we're looking for.")
-    postToRedis('refresh_token', { value: refresh_token })
-    postToRedis('access_token', { value: access_token, expires: expires_in })
+    callStorage(...storageArgs({ key: 'refresh_token', value: refresh_token }))
+    callStorage(
+      ...storageArgs({
+        key: 'access_token',
+        value: access_token,
+        expires: expires_in
+      })
+    )
     res.redirect('/auth?status=success')
   } catch (err) {
     console.error(
@@ -64,12 +75,10 @@ app.get('/spotify/callback', async (req, res) => {
   }
 })
 
-const spotifyAuthUrl = 'https://accounts.spotify.com/'
-
 const getSpotifyToken = (props = {}) =>
   axios({
     method: 'post',
-    url: `${spotifyAuthUrl}api/token`,
+    url: 'https://accounts.spotify.com/api/token',
     params: {
       client_id: process.env.SPOTIFY_CLIENT_ID,
       client_secret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -91,39 +100,19 @@ const getUserData = access_token =>
     }
   })
 
-function postToRedis(key, keys) {
-  const { data, value, expires } = keys
-  return axios({
-    method: 'post',
-    url: `${process.env.CLIENT_URL}/api/spotify/data/${key}${
-      value ? `?value=${value}` : ''
-    }${expires ? `&expires=${expires}` : ''}`,
-    data,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-}
-
 async function getAccessToken() {
-  const { data } = await axios.get(
-    `${process.env.CLIENT_URL}/api/spotify/data/access_token`
-  )
-  const accessTokenObj = { value: data.access_token }
+  const accessTokenObj = { value: await redisClient.get('access_token') }
   if (!Boolean(accessTokenObj.value)) {
-    const refeshToken = await axios.get(
-      `${process.env.CLIENT_URL}/api/spotify/data/refresh_token`
-    )
-    const { refresh_token } = refeshToken.data
+    const refresh_token = await redisClient.get('refresh_token')
     const tokenData = await getSpotifyToken({
       refresh_token,
       grant_type: 'refresh_token'
     })
     Object.assign(accessTokenObj, {
-      value: tokenData.data.tokenData,
+      value: tokenData.data.access_token,
       expires: tokenData.data.expires_in
     })
-    postToRedis('access_token', accessTokenObj)
+    callStorage(...storageArgs({ key: 'access_token', ...accessTokenObj }))
   }
   return accessTokenObj.value
 }
@@ -132,7 +121,7 @@ app.get('/spotify/now-playing/', async (req, res) => {
   try {
     const access_token = await getAccessToken()
     const response = await axios.get(
-      'https://api.spotify.com/v1/me/player/currently-playing?market=US',
+      `${spotifyBaseUrl}me/player/currently-playing?market=US`,
       {
         headers: {
           withCredentials: true,
@@ -150,7 +139,7 @@ app.get('/spotify/now-playing/', async (req, res) => {
 async function setLastPlayed(access_token, { item }) {
   if (!Boolean(item)) {
     const { data } = await axios.get(
-      'https://api.spotify.com/v1/me/player/recently-played?market=US',
+      `${spotifyBaseUrl}me/player/recently-played?market=US`,
       {
         headers: {
           withCredentials: true,
@@ -164,10 +153,13 @@ async function setLastPlayed(access_token, { item }) {
   }
 }
 
-function postStoredTrack({ name, artists, album }) {
-  postToRedis('last_played', {
-    data: { name, artists, image: album.images[0].url }
-  })
+function postStoredTrack({ album, ...props }) {
+  callStorage(
+    ...storageArgs({
+      key: 'last_played',
+      body: { image: album.images[0].url, ...props }
+    })
+  )
 }
 
 module.exports = {
