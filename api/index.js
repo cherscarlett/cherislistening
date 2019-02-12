@@ -17,11 +17,13 @@ redisClient.on('error', err => {
 const app = express()
 app.use(express.json())
 // Express app
-app.all('/spotify/data/:key', async ({ params: { key } }, res) => {
+
+app.all('/spotify/data/:key', async ({ params: { key }, query }, res) => {
   try {
     if (key === ('refresh_token' || 'access_token'))
       throw { error: '🔒 Cannot get protected stores. 🔒' }
-    const reply = await callStorage(...storageArgs(key))
+    const { value } = query
+    const reply = await callStorage(...storageArgs(key, { value }))
     res.send({ [key]: reply })
   } catch (err) {
     console.error(`\n🚨 There was an error at /api/spotify/data: ${err} 🚨\n`)
@@ -29,12 +31,13 @@ app.all('/spotify/data/:key', async ({ params: { key } }, res) => {
   }
 })
 
-function storageArgs(key, ...{ expires, body, ...props }) {
-  const value = Boolean(body) ? JSON.stringify(body) : props.value
+function storageArgs(key, props) {
+  const { expires, body, value } = props
+  const val = Boolean(body) ? JSON.stringify(body) : value
   return [
-    Boolean(value) ? 'set' : 'get',
+    Boolean(val) ? 'set' : 'get',
     key,
-    value,
+    val,
     Boolean(expires) ? 'EX' : null,
     expires
   ].filter(arg => Boolean(arg))
@@ -54,24 +57,24 @@ app.get('/spotify/callback', async ({ query: { code } }, res) => {
     } = await getUserData(access_token)
 
     if (id !== process.env.SPOTIFY_USER_ID)
-      throw { error: "🤖 You aren't the droid we're looking for. 🤖" }
+      throw "🤖 You aren't the droid we're looking for. 🤖"
 
-    callStorage(...storageArgs({ key: 'refresh_token', value: refresh_token }))
+    callStorage(...storageArgs('is_connected', { value: true }))
+    callStorage(...storageArgs('refresh_token', { value: refresh_token }))
     callStorage(
-      ...storageArgs({
-        key: 'access_token',
+      ...storageArgs('access_token', {
         value: access_token,
         expires: expires_in
       })
     )
 
-    const success = { success: '🎉 Welcome Back 🎉' }
-    res.redirect(`/auth?message=${success}`)
+    const success = '🎉 Welcome Back 🎉'
+    res.redirect(`/auth?success=${success}`)
   } catch (err) {
     console.error(
       `\n🚨 There was an error at /api/spotify/callback: ${err} 🚨\n`
     )
-    res.redirect(`/auth?type=fail&message=${err}`)
+    res.redirect(`/auth?message=${err}`)
   }
 })
 
@@ -114,7 +117,7 @@ async function getAccessToken() {
       value: access_token,
       expires: expires_in
     })
-    callStorage(...storageArgs({ key: 'access_token', ...accessTokenObj }))
+    callStorage(...storageArgs('access_token', { ...accessTokenObj }))
   }
   return accessTokenObj.value
 }
@@ -157,8 +160,7 @@ async function setLastPlayed(access_token, { item }) {
 
 function postStoredTrack({ album, ...props }) {
   callStorage(
-    ...storageArgs({
-      key: 'last_played',
+    ...storageArgs('last_played', {
       body: { image: album.images[0].url, ...props }
     })
   )
