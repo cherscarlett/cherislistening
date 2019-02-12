@@ -1,7 +1,7 @@
 <template>
   <div :class="$nuxt.$route.name === 'auth' ? 'auth base' : 'base'">
     <Header/>
-    <section>
+    <section class="content">
       <nuxt/>
     </section>
     <Footer/>
@@ -19,6 +19,12 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Bungee+Hairline|Oswald');
+
+:root {
+  --colorGray: #333642;
+  --colorBlue: rgba(118, 120, 224, 0.5);
+  --colorBrightBlue: rgb(0, 112, 255);
+}
 html {
   background: #000000;
 }
@@ -29,10 +35,12 @@ body {
   font-family: 'Bungee Hairline', monospace;
 }
 .base {
-  background: linear-gradient(to top, #333642, #000000);
+  background-size: cover;
+  background-image: linear-gradient(to top, var(--colorGray), #000000);
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-x: hidden;
 }
 a {
   color: white;
@@ -52,7 +60,7 @@ a:before {
 }
 a:after {
   bottom: 2px;
-  background: rgba(118, 120, 224, 0.5);
+  background: var(--colorBlue);
   z-index: -1;
   transform: rotate(-3deg);
 }
@@ -63,5 +71,40 @@ a:before {
 .auth header,
 .auth footer {
   filter: blur(20px);
+}
+
+.content {
+  transform: translateY(10em);
+}
+@media (max-width: 900px) {
+  h1 {
+    font-size: 12em !important;
+  }
+}
+@media (max-width: 800px) {
+  h1 {
+    font-size: 10em !important;
+  }
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 8em !important;
+  }
+
+  .content {
+    transform: translateY(7em);
+  }
+}
+@media (max-width: 500px) {
+  h1 {
+    font-size: 5em !important;
+  }
+  h2 {
+    font-size: 2em !important;
+  }
+
+  .content {
+    transform: translateY(3em);
+  }
 }
 </style>
