@@ -150,8 +150,9 @@ async function setLastPlayed(access_token, { item }) {
       }
     )
     postStoredTrack(data.items[0])
+  } else {
+    postStoredTrack(item)
   }
-  postStoredTrack(item)
 }
 
 function postStoredTrack({ album, ...props }) {
