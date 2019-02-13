@@ -1,10 +1,14 @@
-# cherislistening
+# Cher Is Listening
 
 > A Spotify Now Playing App
 
+[Demo](http://cherislistening.herokuapp.com/)
+
+Tutorial WIP
+
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
