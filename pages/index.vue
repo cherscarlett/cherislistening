@@ -1,6 +1,7 @@
 <template>
   <section>
-    <NowPlaying :nowPlaying="track" :isPlaying="isPlaying"/>
+    <NowPlaying v-if="isConnected && track" :nowPlaying="track" :isPlaying="isPlaying"/>
+    <p v-if="!!isConnected">Nothing here yet. 😭</p>
   </section>
 </template>
 
@@ -20,6 +21,9 @@ export default {
     },
     isPlaying() {
       return this.$store.state.isPlaying
+    },
+    isConnected() {
+      return this.$store.state.isConnected
     }
   }
 }
