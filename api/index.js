@@ -14,7 +14,7 @@ redisClient.on('error', err => {
   console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
 })
 
-redisClient.quit()
+redisClient.disconnect()
 const app = express()
 app.use(express.json())
 // Express app
