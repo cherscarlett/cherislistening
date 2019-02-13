@@ -22,8 +22,13 @@ export default {
     }
   },
   asyncData({ env, query }) {
+    const spotifyUrl = `https://accounts.spotify.com/authorize?client_id=${
+      env.SPOTIFY_CLIENT_ID
+    }&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=${
+      env.CLIENT_URL
+    }/api/spotify/callback`
     return {
-      env,
+      spotifyUrl,
       query
     }
   },
@@ -32,9 +37,7 @@ export default {
       !Boolean(this.query.success || this.query.error) &&
       !Boolean(this.isConnected)
     ) {
-      window.location = `https://accounts.spotify.com/authorize?client_id=ed1727153f264e7abcc1e06c28927290&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=http://${
-        this.env.CLIENT_URL
-      }/api/spotify/callback`
+      window.location = this.spotifyUrl
     } else if (Boolean(Object.keys(this.query).length !== 0)) {
       window.history.replaceState({}, document.title, window.location.pathname)
       this.$store.commit(
