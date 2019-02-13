@@ -23,9 +23,9 @@ export default {
   },
   asyncData({ env, query }) {
     const spotifyUrl = `https://accounts.spotify.com/authorize?client_id=${
-      env.SPOTIFY_CLIENT_ID
+      env.spotifyId
     }&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=${
-      env.CLIENT_URL
+      env.clientUrl
     }/api/spotify/callback`
     return {
       spotifyUrl,
