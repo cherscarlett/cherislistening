@@ -137,7 +137,7 @@ app.get('/spotify/now-playing/', async (req, res) => {
     setLastPlayed(access_token, response.data)
     res.send(response.data)
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.send({ error: err.message })
   }
 })
