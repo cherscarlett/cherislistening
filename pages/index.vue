@@ -1,7 +1,7 @@
 <template>
   <section>
     <NowPlaying v-if="isConnected && track" :nowPlaying="track" :isPlaying="isPlaying"/>
-    <p v-if="!!isConnected">Nothing here yet. 😭</p>
+    <p v-if="!isConnected">Nothing here yet. 😭</p>
   </section>
 </template>
 
