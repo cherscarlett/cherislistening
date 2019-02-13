@@ -47,7 +47,7 @@ function storageArgs(key, props) {
   ].filter(arg => Boolean(arg))
 }
 
-const callStorage = async (method, ...args) => {
+async function callStorage(method, ...args) {
   const redisClient = connectToRedis()
   const response = await redisClient[method](...args)
   redisClient.quit()
@@ -173,7 +173,7 @@ async function setLastPlayed(access_token, { item }) {
 function postStoredTrack(props) {
   callStorage(
     ...storageArgs('last_played', {
-      body: { ...props }
+      body: props
     })
   )
 }

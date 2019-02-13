@@ -37,7 +37,6 @@ h1 a {
   filter: brightness(300%) opacity(30%);
   position: absolute;
   bottom: 0;
-  right: 0;
 }
 h1 a:hover {
   filter: brightness(300%) opacity(60%);
