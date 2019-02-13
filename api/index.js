@@ -4,15 +4,17 @@ import axios from 'axios'
 
 require('dotenv').config()
 
-const redisClient = redis.createClient(process.env.REDIS_URL)
-// Redis client
-redisClient.on('connect', () => {
-  console.log('\n🎉 Redis client connected 🎉\n')
-})
+const redisClient = {}
 
-redisClient.on('error', err => {
-  console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
-})
+// const redisClient = redis.createClient(process.env.REDIS_URL)
+// // Redis client
+// redisClient.on('connect', () => {
+//   console.log('\n🎉 Redis client connected 🎉\n')
+// })
+
+// redisClient.on('error', err => {
+//   console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
+// })
 
 const app = express()
 app.use(express.json())
