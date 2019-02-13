@@ -35,6 +35,9 @@ h1 a {
   background-image: url(~assets/spotify.svg);
   background-size: cover;
   filter: brightness(300%) opacity(30%);
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 h1 a:hover {
   filter: brightness(300%) opacity(60%);
