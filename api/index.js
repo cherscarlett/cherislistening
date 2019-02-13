@@ -50,7 +50,7 @@ function storageArgs(key, props) {
 const callStorage = async (method, ...args) => {
   const redisClient = connectToRedis()
   await redisClient[method](...args)
-  redisClient.end(false)
+  redisClient.quit()
 }
 
 app.get('/spotify/callback', async ({ query: { code } }, res) => {
@@ -128,7 +128,7 @@ async function getAccessToken() {
     })
     callStorage(...storageArgs('access_token', { ...accessTokenObj }))
   }
-  redisClient.end(false)
+  redisClient.quit()
   return accessTokenObj.value
 }
 
