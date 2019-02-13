@@ -75,15 +75,36 @@ a:before {
 
 .content {
   transform: translateY(10em);
+  height: 0;
 }
+
+.nuxt-progress {
+  opacity: 0.3;
+  height: 2px;
+  bottom: 0;
+  top: auto;
+}
+
+@media (max-width: 1400px) {
+  .content {
+    transform: translateY(2em);
+  }
+}
+
 @media (max-width: 900px) {
   h1 {
     font-size: 12em !important;
+  }
+  .content {
+    transform: translateY(4em);
   }
 }
 @media (max-width: 800px) {
   h1 {
     font-size: 10em !important;
+  }
+  .content {
+    transform: translateY(15em);
   }
 }
 @media (max-width: 600px) {

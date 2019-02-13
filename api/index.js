@@ -137,6 +137,7 @@ app.get('/spotify/now-playing/', async (req, res) => {
     setLastPlayed(access_token, response.data)
     res.send(response.data)
   } catch (err) {
+    console.log(err)
     res.send({ error: err.message })
   }
 })
@@ -158,10 +159,10 @@ async function setLastPlayed(access_token, { item }) {
   }
 }
 
-function postStoredTrack({ album, ...props }) {
+function postStoredTrack(props) {
   callStorage(
     ...storageArgs('last_played', {
-      body: { image: album.images[0].url, ...props }
+      body: { ...props }
     })
   )
 }

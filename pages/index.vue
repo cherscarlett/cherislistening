@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NowPlaying :isPlaying="isPlaying" :track="nowPlaying"/>
+    <NowPlaying :nowPlaying="track" :isPlaying="isPlaying"/>
   </section>
 </template>
 
@@ -11,16 +11,15 @@ export default {
   components: { NowPlaying },
   computed: {
     nowPlaying() {
-      const { progress_ms, item, is_playing } = this.$store.state.nowPlaying
-      this.playing = Boolean(is_playing)
-      if (Boolean(item)) {
-        this.progress_ms
-        return item
-      }
+      if (Boolean(this.$store.state.nowPlaying))
+        return this.$store.state.nowPlaying
       return this.$store.state.recentlyPlayed
     },
+    track() {
+      return this.nowPlaying
+    },
     isPlaying() {
-      return this.playing
+      return this.$store.state.isPlaying
     }
   }
 }
