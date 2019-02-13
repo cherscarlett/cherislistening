@@ -21,8 +21,9 @@ export default {
       return this.$store.state.message
     }
   },
-  asyncData({ query }) {
+  asyncData({ env, query }) {
     return {
+      env,
       query
     }
   },
@@ -31,8 +32,9 @@ export default {
       !Boolean(this.query.success || this.query.error) &&
       !Boolean(this.isConnected)
     ) {
-      window.location =
-        'https://accounts.spotify.com/authorize?client_id=ed1727153f264e7abcc1e06c28927290&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=http://localhost:3000/api/spotify/callback'
+      window.location = `https://accounts.spotify.com/authorize?client_id=ed1727153f264e7abcc1e06c28927290&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=http://${
+        this.env.CLIENT_URL
+      }/api/spotify/callback`
     } else if (Boolean(Object.keys(this.query).length !== 0)) {
       window.history.replaceState({}, document.title, window.location.pathname)
       this.$store.commit(
