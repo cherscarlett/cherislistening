@@ -18,8 +18,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Bungee+Hairline|Oswald');
-
 :root {
   --colorGray: #333642;
   --colorBlue: rgba(118, 120, 224, 0.5);
