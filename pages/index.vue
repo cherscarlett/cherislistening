@@ -1,7 +1,9 @@
 <template>
   <section>
     <NowPlaying v-if="isConnected && track" :nowPlaying="track" :isPlaying="isPlaying"/>
-    <p v-if="!isConnected">Nothing here yet. 😭</p>
+    <p v-if="!isConnected">😭 Cher hasn't connected yet. 😭
+      <a href="http://twitter.com/codehitchhiker">Nudge her</a>
+    </p>
   </section>
 </template>
 
