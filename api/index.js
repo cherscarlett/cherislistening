@@ -7,8 +7,6 @@ require('dotenv').config()
 const app = express()
 app.use(express.json())
 
-const redisClient = redis.createClient(process.env.REDIS_URL)
-
 // Express app
 
 app.all('/spotify/data/:key', async ({ params: { key }, query }, res) => {
@@ -36,7 +34,17 @@ function storageArgs(key, props) {
   ].filter(arg => Boolean(arg))
 }
 
-const callStorage = (method, ...args) => redisClient[method](...args)
+const callStorage = async (method, ...args) => {
+  const redisClient = redis.createClient(process.env.REDIS_URL)
+  redisClient.on('connect', () => {
+    console.log('\n🎉 Redis client connected 🎉\n')
+  })
+  redisClient.on('error', err => {
+    console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
+  })
+  await redisClient[method](...args)
+  redisClient.end()
+}
 
 app.get('/spotify/callback', async ({ query: { code } }, res) => {
   try {
@@ -159,15 +167,6 @@ function postStoredTrack(props) {
     })
   )
 }
-
-// Redis client
-redisClient.on('connect', () => {
-  console.log('\n🎉 Redis client connected 🎉\n')
-})
-
-redisClient.on('error', err => {
-  console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
-})
 
 module.exports = {
   path: '/api/',
