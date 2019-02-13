@@ -34,23 +34,27 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit({ commit }) {
-    const redisUrl = `${clientUrl}/api/spotify/data/`
-    const {
-      data: { is_connected }
-    } = await axios.get(`${redisUrl}is_connected`)
-    commit('updateConnection', is_connected)
-    if (Boolean(is_connected)) {
+    try {
+      const redisUrl = `${clientUrl}/api/spotify/data/`
       const {
-        data: { item, is_playing }
-      } = await axios.get(`${clientUrl}/api/spotify/now-playing`)
-      commit('nowPlayingChange', item)
-      commit('isPlayingChange', is_playing)
+        data: { is_connected }
+      } = await axios.get(`${redisUrl}is_connected`)
+      commit('updateConnection', is_connected)
+      if (Boolean(is_connected)) {
+        const {
+          data: { item, is_playing }
+        } = await axios.get(`${clientUrl}/api/spotify/now-playing`)
+        commit('nowPlayingChange', item)
+        commit('isPlayingChange', is_playing)
+      }
+      const {
+        data: { last_played }
+      } = await axios.get(`${redisUrl}last_played`)
+      if (Boolean(last_played))
+        commit('recentlyPlayedChange', JSON.parse(last_played))
+    } catch (err) {
+      console.error(err)
     }
-    const {
-      data: { last_played }
-    } = await axios.get(`${redisUrl}last_played`)
-    if (Boolean(last_played))
-      commit('recentlyPlayedChange', JSON.parse(last_played))
   },
   updateProgress: ({ commit, state }, props) => {
     commit('trackProgressUpdate', props)
