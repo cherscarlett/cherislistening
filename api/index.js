@@ -7,6 +7,19 @@ require('dotenv').config()
 const app = express()
 app.use(express.json())
 
+// Redis
+
+function connectToRedis() {
+  const redisClient = redis.createClient(process.env.REDIS_URL)
+  redisClient.on('connect', () => {
+    console.log('\n🎉 Redis client connected 🎉\n')
+  })
+  redisClient.on('error', err => {
+    console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
+  })
+  return redisClient
+}
+
 // Express app
 
 app.all('/spotify/data/:key', async ({ params: { key }, query }, res) => {
@@ -35,15 +48,9 @@ function storageArgs(key, props) {
 }
 
 const callStorage = async (method, ...args) => {
-  const redisClient = redis.createClient(process.env.REDIS_URL)
-  redisClient.on('connect', () => {
-    console.log('\n🎉 Redis client connected 🎉\n')
-  })
-  redisClient.on('error', err => {
-    console.error(`\n🚨 Redis client could not connect: ${err} 🚨\n`)
-  })
+  const redisClient = connectToRedis()
   await redisClient[method](...args)
-  redisClient.end()
+  redisClient.end(false)
 }
 
 app.get('/spotify/callback', async ({ query: { code } }, res) => {
@@ -105,6 +112,7 @@ const getUserData = access_token =>
   })
 
 async function getAccessToken() {
+  const redisClient = connectToRedis()
   const accessTokenObj = { value: await redisClient.get('access_token') }
   if (!Boolean(accessTokenObj.value)) {
     const refresh_token = await redisClient.get('refresh_token')
@@ -120,6 +128,7 @@ async function getAccessToken() {
     })
     callStorage(...storageArgs('access_token', { ...accessTokenObj }))
   }
+  redisClient.end(false)
   return accessTokenObj.value
 }
 

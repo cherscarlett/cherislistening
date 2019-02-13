@@ -5,7 +5,7 @@
   "author": "Cher Scarlett",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nodemon --watch api --exec \"nuxt\"",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",

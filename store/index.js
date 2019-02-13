@@ -49,7 +49,8 @@ export const actions = {
     const {
       data: { last_played }
     } = await axios.get(`${redisUrl}last_played`)
-    commit('recentlyPlayedChange', JSON.parse(last_played))
+    if (Boolean(last_played))
+      commit('recentlyPlayedChange', JSON.parse(last_played))
   },
   updateProgress: ({ commit, state }, props) => {
     commit('trackProgressUpdate', props)

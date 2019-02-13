@@ -37,10 +37,14 @@ export default {
       return this.$store.state.trackProgress
     },
     artistsList() {
-      return this.nowPlaying.artists.map(artist => artist.name).join(', ')
+      return this.nowPlaying.artists
+        ? this.nowPlaying.artists.map(artist => artist.name).join(', ')
+        : null
     },
     href() {
-      return this.nowPlaying.external_urls.spotify
+      return this.nowPlaying.external_urls
+        ? this.nowPlaying.external_urls.spotify
+        : null
     },
     name() {
       return this.nowPlaying.name
