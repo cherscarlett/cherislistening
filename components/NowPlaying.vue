@@ -198,6 +198,10 @@ p {
   }
   aside {
     max-width: 160px;
+    margin: 0 auto;
+  }
+  .metadata {
+    text-align: center;
   }
 }
 </style>
