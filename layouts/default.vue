@@ -109,6 +109,9 @@ a:before {
   h1 {
     font-size: 8em !important;
   }
+  h2 {
+    font-size: 2em !important;
+  }
 
   .content {
     transform: translateY(7em);
@@ -117,9 +120,6 @@ a:before {
 @media (max-width: 500px) {
   h1 {
     font-size: 5em !important;
-  }
-  h2 {
-    font-size: 2em !important;
   }
 
   .content {
