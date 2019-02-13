@@ -67,5 +67,9 @@ export const actions = {
   updateStatus: ({ commit, state }, isPlaying) => {
     commit('isPlayingChange', isPlaying)
     return state.isPlaying
+  },
+  dispatchConnection: ({ commit, state }, isConnected) => {
+    commit('updateConnection', isConnected)
+    return state.isConnected
   }
 }

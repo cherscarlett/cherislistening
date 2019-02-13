@@ -1,7 +1,8 @@
 <template>
   <section>
     <NowPlaying v-if="isConnected && track" :nowPlaying="track" :isPlaying="isPlaying"/>
-    <p v-if="!isConnected">😭 Cher hasn't connected yet. 😭
+    <p v-if="!isConnected">
+      😭 Cher hasn't connected yet. 😭
       <a href="http://twitter.com/codehitchhiker">Nudge her</a>
     </p>
   </section>
@@ -15,7 +16,8 @@ export default {
   computed: {
     nowPlaying() {
       if (Boolean(this.$store.state.nowPlaying))
-        return this.$store.state.nowPlaying
+        this.$store.dispatch('dispatchConnection', true)
+      return this.$store.state.nowPlaying
       return this.$store.state.recentlyPlayed
     },
     track() {

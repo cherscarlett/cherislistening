@@ -40,7 +40,7 @@ export default {
         this.query.success || this.query.error
       )
       if (Boolean(this.query.success)) {
-        this.$store.commit('updateConnection', true)
+        this.$store.dispatch('dispatchConnection', true)
       }
     }
     if (Boolean(this.isConnected)) {
