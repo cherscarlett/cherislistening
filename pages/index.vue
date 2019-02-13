@@ -37,7 +37,7 @@ export default {
 section {
   min-width: 320px;
   transform: translateY(-50%);
-  max-width: 600px;
+  max-width: 750px;
   margin: auto;
   padding: 1em;
 }
