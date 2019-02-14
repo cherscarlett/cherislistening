@@ -2,8 +2,10 @@
   <section>
     <NowPlaying v-if="isConnected && track" :nowPlaying="track" :isPlaying="isPlaying"/>
     <p v-if="!isConnected">
-      😭 Cher hasn't connected yet. 😭
-      <a href="http://twitter.com/codehitchhiker">Nudge her</a>
+      😭 {{ $nuxt.layout.authorName }} hasn't connected yet. 😭
+      <a
+        href="http://twitter.com/codehitchhiker"
+      >Nudge her</a>
     </p>
   </section>
 </template>
@@ -15,9 +17,10 @@ export default {
   components: { NowPlaying },
   computed: {
     nowPlaying() {
-      if (Boolean(this.$store.state.nowPlaying))
+      if (Boolean(Object.keys(this.$store.state.nowPlaying).length !== 0)) {
         this.$store.dispatch('updateConnection', true)
-      return this.$store.state.nowPlaying
+        return this.$store.state.nowPlaying
+      }
       return this.$store.state.recentlyPlayed
     },
     track() {
@@ -35,7 +38,7 @@ export default {
 
 <style scoped>
 section {
-  min-width: 320px;
+  min-width: 300px;
   transform: translateY(-50%);
   max-width: 750px;
   margin: auto;
@@ -45,6 +48,8 @@ section {
 @media (max-width: 600px) {
   section {
     transform: translateY(-10%);
+    width: 50vw;
+    min-width: 200px;
   }
 }
 </style>

@@ -118,7 +118,6 @@ section {
   display: grid;
   grid-template-columns: 42% 58%;
   align-items: center;
-  justify-content: center;
 }
 aside {
   position: relative;
