@@ -24,8 +24,8 @@ h1 {
 }
 h1 a {
   display: inline-block;
-  height: 20px;
-  width: 20px;
+  height: 21px;
+  width: 21px;
   background-image: url(~assets/spotify.svg);
   background-size: cover;
   filter: brightness(300%) opacity(30%);

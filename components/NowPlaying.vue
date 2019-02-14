@@ -2,7 +2,7 @@
   <transition name="fade">
     <section>
       <aside>
-        <img :src="image" alt="Album Artwork">
+        <img v-if="image" :src="image" alt="Album Artwork">
         <Progress :class="isPlaying ? '' : 'is-paused'" :progressPercent="progress" :image="image"/>
       </aside>
       <div class="metadata">
@@ -28,10 +28,12 @@ export default {
   },
   computed: {
     image() {
-      if (Boolean(this.nowPlaying.album)) {
+      if (Boolean(this.nowPlaying.album.images[0])) {
         return this.nowPlaying.album.images[0].url
       }
-      return this.nowPlaying.image
+      return Boolean(this.nowPlaying.image)
+        ? this.nowPlaying.image
+        : 'https://developer.spotify.com/assets/branding-guidelines/icon2@2x.png'
     },
     progress() {
       return this.$store.state.trackProgress
@@ -81,9 +83,8 @@ export default {
         } else {
           this.updateProgress(progress, duration)
         }
-        let id = null
-        if (Boolean(this.nowPlaying)) id = this.nowPlaying.id
-        if (item && (is_playing && item.id !== id)) {
+        const { id } = this.nowPlaying
+        if (item.id !== id) {
           this.$store.dispatch('updateTrack', item)
         }
       }
