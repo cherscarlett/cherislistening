@@ -28,25 +28,25 @@ export default {
   },
   computed: {
     image() {
-      if (Boolean(this.nowPlaying.album.images[0])) {
-        return this.nowPlaying.album.images[0].url
+      const { album, image } = this.nowPlaying
+      if (Boolean(album)) {
+        const { url } = album.images[0]
+        return url
       }
-      return Boolean(this.nowPlaying.image)
-        ? this.nowPlaying.image
+      return Boolean(image)
+        ? image
         : 'https://developer.spotify.com/assets/branding-guidelines/icon2@2x.png'
     },
     progress() {
       return this.$store.state.trackProgress
     },
     artistsList() {
-      return this.nowPlaying.artists
-        ? this.nowPlaying.artists.map(artist => artist.name).join(', ')
-        : null
+      const { artists } = this.nowPlaying
+      return artists ? artists.map(artist => artist.name).join(', ') : null
     },
     href() {
-      return this.nowPlaying.external_urls
-        ? this.nowPlaying.external_urls.spotify
-        : null
+      const { external_urls } = this.nowPlaying
+      return external_urls ? external_urls.spotify : null
     },
     name() {
       return this.nowPlaying.name
