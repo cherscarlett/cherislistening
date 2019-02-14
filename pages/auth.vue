@@ -92,9 +92,6 @@ section:before {
   transform: rotate(3deg);
   background: rgba(255, 255, 255, 0.03);
 }
-a:not(.area-close) {
-  margin: auto;
-}
 
 .fade-enter-active,
 .fade-leave-active {
