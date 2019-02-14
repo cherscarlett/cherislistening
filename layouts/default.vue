@@ -119,7 +119,13 @@ a.area-close {
 
 @media (max-width: 1400px) {
   .content {
-    transform: translateY(2em);
+    transform: translateY(14em);
+  }
+}
+
+@media (max-width: 1200px) {
+  .content {
+    transform: translateY(7em);
   }
 }
 
