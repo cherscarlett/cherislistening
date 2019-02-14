@@ -134,7 +134,7 @@ a.area-close {
     font-size: 12em !important;
   }
   .content {
-    transform: translateY(4em);
+    transform: translateY(12em);
   }
 }
 @media (max-width: 800px) {
