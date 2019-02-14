@@ -6,7 +6,7 @@
         to="/auth"
         name="auth"
         aria-label="Login"
-        v-bind:aria-current="'/auth' === $nuxt.$route.path ? 'page' : false"
+        :aria-current="'/auth' === $nuxt.$route.path ? 'page' : false"
       />
     </h1>
   </header>
