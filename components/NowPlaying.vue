@@ -10,7 +10,7 @@
         <p>{{artistsList}}</p>
         <p :class="isPlaying ? 'is-playing status' : 'status'">
           <span>{{$nuxt.layout.authorName}} {{ status }}.</span>
-          <a :href="href">Listen?</a>
+          <a v-if="href" :href="href">Listen?</a>
         </p>
       </div>
     </section>
