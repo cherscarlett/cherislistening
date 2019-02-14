@@ -6,7 +6,7 @@
         to="/auth"
         name="auth"
         aria-label="Login"
-        :aria-current="'/auth' === $nuxt.$route.path ? 'page' : false"
+        :aria-current="'auth' === $nuxt.$route.name ? 'page' : false"
       />
     </h1>
   </header>
