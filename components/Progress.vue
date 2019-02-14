@@ -1,12 +1,12 @@
 <template>
   <div aria-hidden="true">
-    <svg class="album" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" role="img">
+    <svg class="album" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" role="img">
       <defs>
         <pattern id="image" x="0%" y="0%" height="100%" width="100%" patternUnits="userSpaceOnUse">
           <image x="0%" y="0%" width="100%" height="100%" v-bind="{'xlink:href': image }"></image>
         </pattern>
       </defs>
-      <rect height="27" width="27" class="image" x="0" y="0"></rect>
+      <rect height="25" width="25" class="image" x="0" y="0"></rect>
     </svg>
     <svg class="progress" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -22,7 +22,7 @@
         :stroke-dasharray="`${progressPercent} 100`"
         fill="none"
         x="0"
-        y="0"
+        y="-0.3"
         height="25"
         width="25"
       ></rect>
