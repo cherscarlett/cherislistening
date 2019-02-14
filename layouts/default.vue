@@ -1,17 +1,11 @@
 <template>
-  <div :class="$nuxt.$route.name === 'auth' ? 'auth base' : 'base'">
-    <Header/>
+  <div :class="rootClass">
+    <Header :isAuth="isAuth"/>
     <section class="content">
       <nuxt/>
     </section>
     <Footer/>
-    <nuxt-link
-      v-if="$nuxt.$route.name === 'auth'"
-      class="area-close"
-      aria-hidden="true"
-      to="/"
-      name="index"
-    ></nuxt-link>
+    <nuxt-link v-if="isAuth" class="area-close" aria-hidden="true" to="/" name="index"></nuxt-link>
   </div>
 </template>
 
@@ -23,6 +17,17 @@ export default {
   components: { Header, Footer },
   titleShort: 'is Listening',
   authorName: 'Cher',
+  computed: {
+    isAuth() {
+      return this.$route.name === 'auth'
+    },
+    ariaCurrent() {
+      return this.isAuth ? 'page' : false
+    },
+    rootClass() {
+      return this.isAuth ? 'auth base' : 'base'
+    }
+  },
   head() {
     return {
       title: `${this.$options.authorName} ${

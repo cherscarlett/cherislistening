@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NowPlaying v-if="isConnected && track" :nowPlaying="track" :isPlaying="isPlaying"/>
+    <NowPlaying v-if="showTrack" :nowPlaying="track" :isPlaying="isPlaying"/>
     <p v-if="!isConnected">
       😭 {{ $nuxt.layout.authorName }} hasn't connected yet. 😭
       <a
@@ -16,6 +16,9 @@ import NowPlaying from '~/components/NowPlaying.vue'
 export default {
   components: { NowPlaying },
   computed: {
+    showTrack() {
+      return this.isConnected && this.track
+    },
     nowPlaying() {
       if (Boolean(Object.keys(this.$store.state.nowPlaying).length !== 0)) {
         this.$store.dispatch('updateConnection', true)

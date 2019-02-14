@@ -3,12 +3,12 @@
     <section>
       <aside>
         <img v-if="image" :src="image" alt="Album Artwork">
-        <Progress :class="isPlaying ? '' : 'is-paused'" :progressPercent="progress" :image="image"/>
+        <Progress :class="className" :progressPercent="progress" :image="image"/>
       </aside>
       <div class="metadata">
         <h2>{{name}}</h2>
         <p>{{artistsList}}</p>
-        <p :class="isPlaying ? 'is-playing status' : 'status'">
+        <p :class="statusClass">
           <span>{{$nuxt.layout.authorName}} {{ status }}.</span>
           <a v-if="href" :href="href">Listen?</a>
         </p>
@@ -27,6 +27,12 @@ export default {
     return { staleTimer: '', trackTimer: '' }
   },
   computed: {
+    className() {
+      return this.isPlaying ? '' : 'is-paused'
+    },
+    statusClass() {
+      return this.isPlaying ? 'is-playing status' : 'status'
+    },
     image() {
       const { album, image } = this.nowPlaying
       if (Boolean(album)) {

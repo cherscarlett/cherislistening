@@ -2,15 +2,16 @@
   <header>
     <h1>
       {{$nuxt.layout.authorName}} {{ $nuxt.layout.titleShort }}
-      <nuxt-link
-        to="/auth"
-        name="auth"
-        aria-label="Login"
-        :aria-current="'auth' === $nuxt.$route.name ? 'page' : false"
-      />
+      <nuxt-link to="/auth" name="auth" aria-label="Login" :aria-current="isAuth"/>
     </h1>
   </header>
 </template>
+
+<script>
+export default {
+  props: ['isAuth']
+}
+</script>
 
 <style scoped>
 h1 {
