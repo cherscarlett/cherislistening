@@ -12,7 +12,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  updateConnection(state, isConnected) {
+  connectionChange(state, isConnected) {
     state.isConnected = isConnected
   },
   updateMessage(state, message) {
@@ -24,7 +24,7 @@ export const mutations = {
   isPlayingChange(state, isPlaying) {
     state.isPlaying = isPlaying
   },
-  trackProgressUpdate(state, { progress, duration }) {
+  progressChange(state, { progress, duration }) {
     state.trackProgress = (progress / duration) * 100
   },
   recentlyPlayedChange(state, recentlyPlayed) {
@@ -39,7 +39,7 @@ export const actions = {
       const {
         data: { is_connected }
       } = await axios.get(`${redisUrl}is_connected`)
-      commit('updateConnection', is_connected)
+      commit('connectionChange', is_connected)
       if (Boolean(is_connected)) {
         const {
           data: { item, is_playing }
@@ -57,7 +57,7 @@ export const actions = {
     }
   },
   updateProgress: ({ commit, state }, props) => {
-    commit('trackProgressUpdate', props)
+    commit('progressChange', props)
     return state.trackProgress
   },
   updateTrack: ({ commit, state }, nowPlaying) => {
@@ -68,8 +68,8 @@ export const actions = {
     commit('isPlayingChange', isPlaying)
     return state.isPlaying
   },
-  dispatchConnection: ({ commit, state }, isConnected) => {
-    commit('updateConnection', isConnected)
+  updateConnection: ({ commit, state }, isConnected) => {
+    commit('connectionChange', isConnected)
     return state.isConnected
   }
 }

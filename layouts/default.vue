@@ -5,6 +5,13 @@
       <nuxt/>
     </section>
     <Footer/>
+    <nuxt-link
+      v-if="$nuxt.$route.name === 'auth'"
+      class="area-close"
+      aria-hidden="true"
+      to="/"
+      name="index"
+    ></nuxt-link>
   </div>
 </template>
 
@@ -13,7 +20,22 @@ import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 
 export default {
-  components: { Header, Footer }
+  components: { Header, Footer },
+  titleShort: 'is Listening',
+  authorName: 'Cher',
+  head() {
+    return {
+      title: `${this.$options.authorName} ${
+        this.$options.titleShort
+      } ·X· A Musical App`,
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css?family=Bungee+Hairline|Oswald'
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -46,8 +68,8 @@ a {
   display: inline-block;
   position: relative;
 }
-a:after,
-a:before {
+a:not(.area-close):after,
+a:not(.area-close):before {
   content: '';
   position: absolute;
   left: 0;
@@ -75,12 +97,24 @@ a:before {
   transform: translateY(10em);
   height: 0;
 }
-
+.auth .content {
+  transform: translateY(0) !important;
+}
 .nuxt-progress {
   opacity: 0.3;
   height: 2px;
   bottom: 0;
   top: auto;
+}
+
+a.area-close {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  z-index: 0;
+  cursor: default;
 }
 
 @media (max-width: 1400px) {

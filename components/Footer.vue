@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <footer>
     This is a demo built by
     <a href="http://cherp.io">Cher Scarlett</a> using Nuxt.js, Redis, and Spotify. Made with 💙.

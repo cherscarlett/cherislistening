@@ -45,7 +45,7 @@ export default {
         this.query.success || this.query.error
       )
       if (Boolean(this.query.success)) {
-        this.$store.dispatch('dispatchConnection', true)
+        this.$store.dispatch('updateConnection', true)
       }
     }
     if (Boolean(this.isConnected)) {
@@ -70,6 +70,7 @@ section {
   text-align: center;
   justify-content: center;
   mix-blend-mode: hard-light;
+  z-index: 2;
 }
 
 section:after,
@@ -91,7 +92,7 @@ section:before {
   transform: rotate(3deg);
   background: rgba(255, 255, 255, 0.03);
 }
-a {
+a:not(.area-close) {
   margin: auto;
 }
 

@@ -16,7 +16,7 @@ export default {
   computed: {
     nowPlaying() {
       if (Boolean(this.$store.state.nowPlaying))
-        this.$store.dispatch('dispatchConnection', true)
+        this.$store.dispatch('updateConnection', true)
       return this.$store.state.nowPlaying
       return this.$store.state.recentlyPlayed
     },

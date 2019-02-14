@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>
-      {{ $options.title }}
+      {{$nuxt.layout.authorName}} {{ $nuxt.layout.titleShort }}
       <nuxt-link
         to="/auth"
         name="auth"
@@ -11,12 +11,6 @@
     </h1>
   </header>
 </template>
-
-<script>
-export default {
-  title: 'Cher is Listening'
-}
-</script>
 
 <style scoped>
 h1 {

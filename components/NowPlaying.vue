@@ -9,7 +9,7 @@
         <h2>{{name}}</h2>
         <p>{{artistsList}}</p>
         <p :class="isPlaying ? 'is-playing status' : 'status'">
-          <span>Cher {{ status }}.</span>
+          <span>{{$nuxt.layout.authorName}} {{ status }}.</span>
           <a :href="href">Listen?</a>
         </p>
       </div>
