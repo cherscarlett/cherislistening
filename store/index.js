@@ -58,7 +58,6 @@ export const actions = {
         const {
           data: { item, is_playing }
         } = await axios.get(`${clientUrl}/api/spotify/now-playing`)
-        console.log(item, is_playing)
         commit('nowPlayingChange', item)
         commit('isPlayingChange', is_playing)
       }
