@@ -4,7 +4,7 @@
       <nuxt-link
         to="/"
         name="index"
-        v-bind:aria-current="'/' === $nuxt.$route.path ? 'page' : false"
+        :aria-current="'/' === $nuxt.$route.path ? 'page' : false"
       >Close</nuxt-link>
       {{message}}
     </section>
@@ -92,7 +92,9 @@ section:before {
   transform: rotate(3deg);
   background: rgba(255, 255, 255, 0.03);
 }
-
+a {
+  margin: auto;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 600ms ease-out;
