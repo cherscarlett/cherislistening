@@ -151,6 +151,7 @@ a.area-close {
   }
   h2 {
     font-size: 2em !important;
+    line-height: 1.2em;
   }
 
   .content {
