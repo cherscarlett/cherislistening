@@ -31,7 +31,6 @@ export const mutations = {
     state.recentlyPlayed = recentlyPlayed
   }
 }
-console.log(Promise)
 export const actions = {
   async nuxtServerInit({ commit }) {
     try {
