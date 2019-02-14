@@ -152,7 +152,7 @@ section:before {
   transform: rotate(3deg);
   background: rgba(255, 255, 255, 0.03);
 }
-div.metadata {
+.metadata {
   padding-left: 1.4em;
   position: relative;
   z-index: 2;
@@ -201,6 +201,7 @@ p {
   }
   .metadata {
     text-align: center;
+    padding: 0;
   }
 }
 </style>

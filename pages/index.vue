@@ -47,8 +47,8 @@ section {
 
 @media (max-width: 600px) {
   section {
-    transform: translateY(-10%);
-    width: 50vw;
+    transform: translateY(-10%) translateX(-2vw);
+    width: 65vw;
     min-width: 200px;
   }
 }
