@@ -148,7 +148,11 @@ app.get('/spotify/now-playing/', async (req, res) => {
     const { data } = response
     setLastPlayed(access_token, data)
     const reply = await callStorage('get', 'last_played')
-    res.send({ item: JSON.parse(reply), is_playing: Boolean(data.is_playing) })
+    res.send({
+      item: JSON.parse(reply),
+      is_playing: Boolean(data.is_playing),
+      progress_ms: data.progress_ms || 0
+    })
   } catch (err) {
     console.error(err)
     res.send({ error: err.message })
