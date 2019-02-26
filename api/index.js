@@ -145,8 +145,13 @@ app.get('/spotify/now-playing/', async (req, res) => {
         }
       }
     )
-    setLastPlayed(access_token, response.data)
-    res.send(response.data)
+    if (res.status !== 204) {
+      setLastPlayed(access_token, response.data)
+      res.send(response.data)
+    } else {
+      const reply = await callStorage('get', 'last_played')
+      res.send({ data: { item: reply, is_playing: false } })
+    }
   } catch (err) {
     console.error(err)
     res.send({ error: err.message })
