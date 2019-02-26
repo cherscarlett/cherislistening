@@ -2,7 +2,7 @@
   <section>
     <NowPlaying v-if="showTrack" :nowPlaying="track" :isPlaying="isPlaying"/>
     <p v-if="!isConnected">
-      😭 {{ $nuxt.layout.authorName }} hasn't connected yet. 😭
+      😭 {{ $nuxt.layout && $nuxt.layout.authorName }} hasn't connected yet. 😭
       <a
         href="http://twitter.com/codehitchhiker"
       >Nudge her</a>

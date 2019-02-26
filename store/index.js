@@ -49,7 +49,6 @@ export const actions = {
       ] = await Promise.all(promises)
 
       commit('connectionChange', is_connected)
-
       if (Boolean(last_played))
         commit('recentlyPlayedChange', JSON.parse(last_played))
 
