@@ -35,28 +35,16 @@ export const actions = {
   async nuxtServerInit({ commit }) {
     try {
       const redisUrl = `${clientUrl}/api/spotify/data/`
-      const promises = [
-        axios.get(`${redisUrl}is_connected`),
-        axios.get(`${redisUrl}last_played`)
-      ]
-      const [
-        {
-          data: { is_connected }
-        },
-        {
-          data: { last_played }
-        }
-      ] = await Promise.all(promises)
+      const {
+        data: { is_connected }
+      } = await axios.get(`${redisUrl}is_connected`)
 
       commit('connectionChange', is_connected)
-      if (Boolean(last_played))
-        commit('recentlyPlayedChange', JSON.parse(last_played))
 
       if (Boolean(is_connected)) {
         const {
           data: { item, is_playing }
         } = await axios.get(`${clientUrl}/api/spotify/now-playing`)
-        console.log(is_playing)
         commit('nowPlayingChange', item)
         commit('isPlayingChange', is_playing)
       }

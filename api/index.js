@@ -145,20 +145,17 @@ app.get('/spotify/now-playing/', async (req, res) => {
         }
       }
     )
-    if (res.status !== 204) {
-      setLastPlayed(access_token, response.data)
-      res.send(response.data)
-    } else {
-      const reply = await callStorage('get', 'last_played')
-      res.send({ data: { item: reply, is_playing: false } })
-    }
+    const { data } = response
+    setLastPlayed(access_token, data)
+    const reply = await callStorage('get', 'last_played')
+    res.send({ item: JSON.parse(reply), is_playing: Boolean(data.is_playing) })
   } catch (err) {
     console.error(err)
     res.send({ error: err.message })
   }
 })
 
-async function setLastPlayed(access_token, { item }) {
+async function setLastPlayed(access_token, item) {
   if (!Boolean(item)) {
     const { data } = await axios.get(
       `${spotifyBaseUrl}me/player/recently-played?market=US`,
@@ -169,9 +166,9 @@ async function setLastPlayed(access_token, { item }) {
         }
       }
     )
-    postStoredTrack(data.items[0])
+    postStoredTrack(data.items[0].track)
   } else {
-    postStoredTrack(item)
+    postStoredTrack(item.item)
   }
 }
 
