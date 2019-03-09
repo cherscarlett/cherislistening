@@ -5,7 +5,7 @@
         <img v-if="image" :src="image" alt="Album Artwork">
         <Progress :class="className" :progressPercent="progress" :image="image"/>
       </aside>
-      <div class="metadata">
+      <div aria-live="polite" class="metadata">
         <h2>{{name}}</h2>
         <p>{{artistsList}}</p>
         <p :class="statusClass">
