@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" mode="out-in">
-    <section>
+    <section aria-live="polite">
       <nuxt-link
         to="/"
         name="index"
