@@ -5,9 +5,9 @@
         <img v-if="image" :src="image" alt="Album Artwork">
         <Progress :class="className" :progressPercent="progress" :image="image"/>
       </aside>
-      <div aria-live="polite" class="metadata">
-        <h2>{{name}}</h2>
-        <p>{{artistsList}}</p>
+      <div class="metadata">
+        <h2 aria-live="polite">{{name}}</h2>
+        <p aria-live="polite">{{artistsList}}</p>
         <p :class="statusClass">
           <span>{{$nuxt.layout && $nuxt.layout.authorName}} {{ status }}.</span>
           <a v-if="href" :href="href">Listen?</a>
