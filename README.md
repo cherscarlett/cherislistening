@@ -4,7 +4,7 @@
 
 [Demo](http://cherislistening.herokuapp.com/)
 
-Tutorial WIP
+[Tutorial](https://www.smashingmagazine.com/2019/03/spotify-app-vue-nuxt-javascript/)
 
 ## Build Setup
 
