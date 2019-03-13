@@ -6,12 +6,12 @@ services:
         command: npm run dev
         working_dir: /app
         ports:
-            - 8080:8080
+            - 3000:
         environment:
             - NUXT_HOST=0.0.0.0
-            - NUXT_PORT=8080
+            - NUXT_PORT=3000
             - REDIS_URL=redis://redis:6379
-            - CLIENT_URL=http://localhost:8080
+            - CLIENT_URL=http://localhost:3000
         volumes:
             - .:/app
         depends_on:
