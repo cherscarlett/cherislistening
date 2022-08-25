@@ -1,7 +1,7 @@
 <template functional>
   <footer>
     This is a demo built by
-    <a href="http://cherp.io">Cher Scarlett</a> using Nuxt.js, Redis, and Spotify. Made with 💙.
+    <a href="http://cher.dev">Cher Scarlett</a> using Nuxt.js, Redis, and Spotify. Made with 💙.
     <a
       href="https://github.com/cherscarlett/cherislistening/fork"
     >Fork your own 🐙.</a>
