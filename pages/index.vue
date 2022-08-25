@@ -4,7 +4,7 @@
     <p v-if="!isConnected">
       😭 {{ $nuxt.layout && $nuxt.layout.authorName }} hasn't connected yet. 😭
       <a
-        href="http://twitter.com/codehitchhiker"
+        href="http://twitter.com/cherthedev"
       >Nudge her</a>
     </p>
   </section>
